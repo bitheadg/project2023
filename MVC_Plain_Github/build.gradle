@@ -1,0 +1,110 @@
+//below block required to let Eclipse Gradle Tasks tab tree shown
+buildscript {
+  ext {
+    springBootVersion = '2.2.2.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	
+	//dependencyManagement
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	
+	id 'java'
+	// Apply the java-library plugin for API and implementation separation.
+    //id 'java-library'
+	
+	//for external tomcat deploy war
+	id 'war'
+}
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+//for war task and Tomcat deployable without bootloader while bootWar
+//war.enabled = true
+
+dependencies {
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:28.0-jre'
+
+    implementation 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'org.junit.jupiter:junit-jupiter-api'
+    //juni5
+    implementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'junit', module: 'junit'
+    }
+
+    //implementation "org.projectlombok:lombok:1.18.18"
+    //1.18.18 caused below
+	//java.lang.IllegalAccessError: class lombok.javac.apt.LombokProcessor (in unnamed module @0x1b392be2) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module    
+	implementation "org.projectlombok:lombok:1.18.20"
+	//to process @Data annotation
+	//annotationProcessor 'org.projectlombok:lombok' //Could not resolve all files for configuration ':annotationProcessor'.
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	//lombok: you need to install lombok in Eclipse
+	//step1) java -jar lombok-1.18.18.jar). A window should appear, browse to your eclipse.exe location.
+	//step2) add the jar in classpath in the project in eclipse
+	//step3) exit and start eclipse
+	
+    implementation 'org.springframework.boot:spring-boot-starter'
+	//implementation 'org.springframework.boot:spring-boot-dependencies:2.0.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-parent:1.5.15.RELEASE'
+    implementation 'org.springframework:spring-jdbc'
+    implementation 'org.springframework:spring-context-support'
+    implementation 'org.springframework:spring-aop'
+    implementation 'org.aspectj:aspectjweaver'
+    
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
+    
+    //to render jsp
+    implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+	implementation "javax.servlet:jstl:1.2"
+
+	//below requires you to set jdbc datasource
+    //implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.2.5.RELEASE'
+    //transaction using atomikos, $
+    
+    //for external tomcat deploy
+    //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}
+
+/*
+bootWar {        
+    archiveName("mvc.war")
+}
+*/
+
+//below block provokes Gradle Tasks tree not shown in Eclipse, 
+//if multiple mainClass for springboot
+springBoot {
+    //mainClassName = 'aa.config.V_SpringbootExternalTomcat'
+    mainClassName = 'aa.config.X_SpringboootApplication'
+}
+
+
+
+/*
+task copyWar2Tomcat(type: Copy) {
+	dependsOn bootWar
+	//The TasksView only shows tasks having properties group and description
+	group = 'aa.custom.gradle.task'
+    description = 'xxx'
+    into "D:/app/apache-tomcat-9.0.43-windows-x64/webapps"
+    from "$buildDir/libs"
+}
+*/

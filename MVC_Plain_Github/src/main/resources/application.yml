@@ -1,0 +1,111 @@
+# ==================================================================================================
+# The three dashes separating the profiles
+# space after colon:
+# ==================================================================================================
+
+# ==================================================================================================
+# Base Config Area
+# ==================================================================================================
+#for CI integration (Jenkis)
+#profile candidates : local.xa.springboot.externalTomcat, local.xa.springboot.embeddedTomcat, local.oracle.springboot.embeddedTomcat, local.mysql.springboot.embeddedTomcat, local, localExternalTomcat, dev, test, real, load, ios
+#create logback under resources/config/logback-<profile>.xml
+#spring.profiles.active: @spring.profiles.active@
+#spring.profiles.active: local.xa.springboot.externalTomcat
+spring.profiles.active: local.xa.springboot.embeddedTomcat
+spring.application.name: aa
+spring.http.encoding:
+  enabled: true
+  force: true
+  charset: UTF-8
+  force-request: true
+  force-response: true
+
+debug: false
+
+# Local Tomcat Config
+server:
+  port: 2021
+  #contextPath: /sb
+  tomcat:
+  #  remote_ip_header: x-forwarded-for
+  #  protocol_header: x-forwarded-proto
+    uri-encoding: UTF-8
+  session.cookie:
+    http-only: true
+    name: aa
+    #path: /sb
+
+spring.devtools.restart.enabled: false
+spring.freemarker.checkTemplateLocation: false
+
+# proxy target
+#spring.aop.proxy-target-class: true
+
+# i18n
+spring.messages:
+  #for ReloadableResourceBundleMessageSource on the fly; e.g.)reloadablemessage_ko_KR.properties
+  #basename: classpath:/i18n/reloadablemessage,classpath:/i18n/marketing (X)
+  basename: classpath:/i18n/reloadablemessage
+  #Default is -1, indicating no generation of cache-related headers.
+  #Only if this is set to 0 (no cache, immediately) or a positive value (cache for this many seconds) will this class generate cache headers.
+  cache-seconds: 2
+  #not frequently changed; basename for ResourceBundleMessageSource: without leading slash;using setBasenames() in source
+  #nochangebasename: i18n/fixedmessage,i18n/brand 
+  nochangebasename: i18n/fixedmessage
+  always-use-message-format: true
+  encoding: UTF-8
+  fallback-to-system-locale: true
+  use-code-as-default-message: true
+
+# Max File Size
+spring.http.multipart.max-file-size: 50MB
+spring.http.multipart.max-request-size: 50MB
+spring.http.multipart.enabled: true
+
+# Jackson disabling timestamps write false
+spring.jackson.serialization:
+  WRITE_DATES_AS_TIMESTAMPS: false
+  WRAP_ROOT_VALUE: false
+
+spring.jackson.deserialization:
+  UNWRAP_ROOT_VALUE: true
+
+# JSP View Resolver
+spring.mvc.view:
+  prefix: /WEB-INF/view/
+  suffix: .jsp
+
+# Cache (Not Use)
+# spring.cache.ehcache.config: cache/ehcache.xml
+
+# Error Page
+server.error:
+  whitelabel.enabled: false
+  include-stacktrace: always # never or always
+#  path: /common/error.jsp
+
+
+# ==================================================================================================
+# Logging Config Area
+# ==================================================================================================
+# SQL Logging
+#log4jdbc.spylogdelegator.name: net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+#log4jdbc.dump.sql.maxlinelength: 0
+
+# logback
+logging:
+  config: classpath:config/logback-${spring.profiles}.xml
+
+
+# ==================================================================================================
+# Profiles
+# ==================================================================================================
+---
+
+spring:
+  profiles: local.xa.springboot.embeddedTomcat
+
+
+
+---
+

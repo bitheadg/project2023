@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 seconds" debug="false">
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern> %d{HH:mm:ss.SSS} [%-5level] %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="javax.management" level="OFF" />
+	<logger name="sun.net.www" level="OFF" />
+	<logger name="org.apache.tomcat.util" level="OFF" />
+	<logger name="org.apache.catalina" level="OFF" />
+	<logger name="org.apache.coyote" level="OFF" />
+	<logger name="org.apache" level="OFF" />
+
+	<logger name="com.navercorp.lucy.security.xss.servletfilter.XssEscapeFilter"
+		level="OFF" />
+
+	<!-- Spring Debug Loggings : only use debug mode -->
+	<logger
+		name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"
+		level="OFF" />
+
+	<logger name="org.hibernate.validator" level="ERROR" />
+
+	<logger name="controller" level="DEBUG" />
+	<logger name="service" level="DEBUG" />
+
+	<!-- 	<logger name="jdbc" level="OFF"/>
+	<logger name="jdbc.sqlonly" level="DEBUG"/>
+	<logger name="jdbc.connection" level="DEBUG"/> -->
+
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+	</root>
+</configuration>
