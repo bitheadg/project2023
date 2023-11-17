@@ -6,7 +6,7 @@
 <head>
     <title>Posting BBS</title>
 </head>
-<body>
+<body style="background-color: orange;">
 TEST
 <s:message code="pongLabel"/>
 
